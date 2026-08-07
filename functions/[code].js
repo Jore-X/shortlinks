@@ -20,17 +20,28 @@ export async function onRequest(context) {
       status: 404,
     });
   }
-  await fetch(`${supabaseUrl}/rest/v1/rpc/increment_clicks`, {
-    method: "POST",
-    headers: {
-      apikey: supabaseKey,
-      Authorization: `Bearer ${supabaseKey}`,
-      "Content-Type": "application/json",
+  console.log(code);
+  const rpcResponse = await fetch(
+    `${supabaseUrl}/rest/v1/rpc/increment_clicks`,
+    {
+      method: "POST",
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        link_code: code,
+      }),
     },
-    body: JSON.stringify({
-      link_code: code,
-    }),
-  });
+  );
+  if (!rpcResponse.ok) {
+    console.error(await rpcResponse.text());
+  }
+  console.log("RPC STATUS:", rpcResponse.status);
+  const rpcBody = await rpcResponse.text();
+
+  console.log("RPC BODY:", rpcBody);
 
   return Response.redirect(link.original_url, 302);
 }
