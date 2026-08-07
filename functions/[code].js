@@ -11,7 +11,7 @@ export async function onRequest(context) {
   });
 
   const data = await response.json();
-  
+
   //   return new Response(JSON.stringify(data));
 
   const link = data[0];
@@ -20,6 +20,17 @@ export async function onRequest(context) {
       status: 404,
     });
   }
+  await fetch(`${supabaseUrl}/rest/v1/rpc/increment_clicks`, {
+    method: "POST",
+    headers: {
+      apikey: supabaseKey,
+      Authorization: `Bearer ${supabaseKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      link_code: code,
+    }),
+  });
 
   return Response.redirect(link.original_url, 302);
 }
