@@ -16,10 +16,10 @@ export async function onRequest(context) {
 
   console.log(code);
   console.log(data);
-  return new Response(JSON.stringify(data));
+//   return new Response(JSON.stringify(data));
 
   const link = data[0];
   console.log(link);
 
-  //   return Response.redirect(link.original_url, 302);
+    return Response.redirect(link.original_url, 302);
 }
