@@ -9,15 +9,21 @@
   </head>
   <body>
     <div class="container">
-        <h2>ShortLinks</h2>
+      <h2>ShortLinks</h2>
       <div>
-        <input type="url" class="original-url-input" />
+        <input
+          type="url"
+          id="original_url_input"
+          placeholder="Digite uma URL."
+        />
         <button class="shorten">Encurtar</button>
       </div>
       <h4>Codigo short</h4>
       <p id="shorten_result"></p>
     </div>
+    <script src="./js/app.js" defer></script>
     <script src="./js/supabase.js"></script>
-    <script src="./js/app.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/validation.js"></script>
   </body>
 </html>

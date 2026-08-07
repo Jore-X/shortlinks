@@ -11,9 +11,7 @@ export async function onRequest(context) {
   });
 
   const data = await response.json();
-
-  console.log(code);
-  console.log(data);
+  
   //   return new Response(JSON.stringify(data));
 
   const link = data[0];
