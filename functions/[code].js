@@ -1,13 +1,11 @@
-export function onRequest(context) {
-  async function hrefLink(code) {
-    const { data } = await supabaseClient
-      .from("links")
-      .select("*")
-      .eq("code", code)
-      .maybeSingle();
+export async function onRequest(context) {
+  const code = context.params.code;
+  const { data } = await supabaseClient
+    .from("links")
+    .select("*")
+    .eq("code", code)
+    .maybeSingle();
 
-    return new Response.redirect(data.original_url);
-  }
-  console.log(context.params.code);
-  hrefLink(context.params.code);
+  console.log(code);
+  return Response.redirect(data.original_url, 302);
 }
