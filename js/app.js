@@ -70,7 +70,10 @@ async function fluxInsert(code, url) {
   }
 }
 
-fluxSearch("teste1");
+async function testeSelect() {
+  const data = await buscarLink("teste1");
+  console.log(data.original_url);
+}
 
 shorten_btn.addEventListener("click", async function () {
   const code = gerarCodigo();
