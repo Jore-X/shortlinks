@@ -20,7 +20,17 @@ async function fluxInsert(code, url) {
 
 async function createLink() {
   const url = input_url.value;
-  if (validateURL(url)) {
+
+  if (!validateURL(url)) {
+    input_url.placeholder = "URL invalida.";
+    input_url.reportValidity();
+
+    return;
+  }
+
+  shorten_btn.disabled = true;
+  shorten_btn.textContent = "Encurtando...";
+  try {
     const code = gerarCodigo();
     const sucess = await fluxInsert(code, url);
 
@@ -29,8 +39,8 @@ async function createLink() {
       return;
     }
     shorten_result.textContent = `Seu link: https://shortlinks-2vs.pages.dev/${code}`;
-  } else {
-    input_url.placeholder = "URL invalida.";
-    input_url.reportValidity();
+  } finally {
+    shorten_btn.disabled = false;
+    shorten_btn.textContent = "Encurtar";
   }
 }
