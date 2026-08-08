@@ -4,18 +4,28 @@ const SUPABASE_ANON_KEY =
 const supabaseClient = supabase.createClient(supabaseUrl, SUPABASE_ANON_KEY);
 
 async function searchLink(code) {
-  const { data } = await supabaseClient
+  const { data, error } = await supabaseClient
     .from("links")
     .select("*")
     .eq("code", code)
     .maybeSingle();
 
+  if (error) {
+    console.error("Erro ao buscar link: ", error);
+    return null;
+  }
+
   return data;
 }
 
 async function insertRow(code, url) {
-  const { data, error } = await supabaseClient.from("links").insert({
+  const { error } = await supabaseClient.from("links").insert({
     code: code,
     original_url: url,
   });
+  if (error) {
+    console.error("Erro ao inserir link: ", error);
+    return false;
+  }
+  return true;
 }
