@@ -12,6 +12,12 @@ async function onRequest(context) {
       Authorization: `Bearer ${supabaseKey}`
     }
   });
+  if (!response.ok) {
+    console.error("Erro ao buscar link", response.status);
+    return new Response("Erro ao buscar link", {
+      status: 500
+    });
+  }
   const data = await response.json();
   const link = data[0];
   if (!link) {
@@ -19,7 +25,6 @@ async function onRequest(context) {
       status: 404
     });
   }
-  console.log(code);
   const rpcResponse = await fetch(
     `${supabaseUrl}/rest/v1/rpc/increment_clicks`,
     {
@@ -547,7 +552,7 @@ var jsonError = /* @__PURE__ */ __name(async (request, env, _ctx, middlewareCtx)
 }, "jsonError");
 var middleware_miniflare3_json_error_default = jsonError;
 
-// ../.wrangler/tmp/bundle-GbpEKN/middleware-insertion-facade.js
+// ../.wrangler/tmp/bundle-6VUhuC/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
   middleware_miniflare3_json_error_default
@@ -579,7 +584,7 @@ function __facade_invoke__(request, env, ctx, dispatch, finalMiddleware) {
 }
 __name(__facade_invoke__, "__facade_invoke__");
 
-// ../.wrangler/tmp/bundle-GbpEKN/middleware-loader.entry.ts
+// ../.wrangler/tmp/bundle-6VUhuC/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class ___Facade_ScheduledController__ {
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;

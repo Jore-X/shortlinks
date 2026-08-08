@@ -14,6 +14,12 @@ async function onRequest(context) {
       Authorization: `Bearer ${supabaseKey}`
     }
   });
+  if (!response.ok) {
+    console.error("Erro ao buscar link", response.status);
+    return new Response("Erro ao buscar link", {
+      status: 500
+    });
+  }
   const data = await response.json();
   const link = data[0];
   if (!link) {
@@ -21,7 +27,6 @@ async function onRequest(context) {
       status: 404
     });
   }
-  console.log(code);
   const rpcResponse = await fetch(
     `${supabaseUrl}/rest/v1/rpc/increment_clicks`,
     {
