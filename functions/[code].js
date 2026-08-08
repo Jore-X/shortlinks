@@ -36,12 +36,10 @@ export async function onRequest(context) {
     },
   );
   if (!rpcResponse.ok) {
-    console.error(await rpcResponse.text());
+    return new Response("Erro ao registrar clique", {
+      status: 500,
+    });
   }
-  console.log("RPC STATUS:", rpcResponse.status);
-  const rpcBody = await rpcResponse.text();
-
-  console.log("RPC BODY:", rpcBody);
 
   return Response.redirect(link.original_url, 302);
 }

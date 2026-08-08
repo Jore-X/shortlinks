@@ -35,11 +35,10 @@ async function onRequest(context) {
     }
   );
   if (!rpcResponse.ok) {
-    console.error(await rpcResponse.text());
+    return new Response("Erro ao registrar clique", {
+      status: 500
+    });
   }
-  console.log("RPC STATUS:", rpcResponse.status);
-  const rpcBody = await rpcResponse.text();
-  console.log("RPC BODY:", rpcBody);
   return Response.redirect(link.original_url, 302);
 }
 __name(onRequest, "onRequest");
@@ -548,7 +547,7 @@ var jsonError = /* @__PURE__ */ __name(async (request, env, _ctx, middlewareCtx)
 }, "jsonError");
 var middleware_miniflare3_json_error_default = jsonError;
 
-// ../.wrangler/tmp/bundle-Yl83zH/middleware-insertion-facade.js
+// ../.wrangler/tmp/bundle-GbpEKN/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
   middleware_miniflare3_json_error_default
@@ -580,7 +579,7 @@ function __facade_invoke__(request, env, ctx, dispatch, finalMiddleware) {
 }
 __name(__facade_invoke__, "__facade_invoke__");
 
-// ../.wrangler/tmp/bundle-Yl83zH/middleware-loader.entry.ts
+// ../.wrangler/tmp/bundle-GbpEKN/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class ___Facade_ScheduledController__ {
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;
