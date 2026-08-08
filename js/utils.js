@@ -27,9 +27,23 @@ async function createLink() {
 
     return;
   }
+  const shortingState = ["Encurtando.", "Encurtando..", "Encurtando..."];
+  let i = 0;
+  let shortingAnimate_bool = true;
+  const shortingAnimate = setInterval(() => {
+    shorten_btn.textContent = shortingState[i];
+    i++;
+    if (i >= shortingState.length) {
+      i = 0;
+    }
 
+    if (shortingAnimate_bool === false) {
+      clearInterval(shortingAnimate);
+      shorten_btn.textContent = "Encurtar";
+    }
+  }, 500);
   shorten_btn.disabled = true;
-  shorten_btn.textContent = "Encurtando...";
+  shorten_btn.classList.add("disabled");
   try {
     const code = gerarCodigo();
     const sucess = await fluxInsert(code, url);
@@ -41,6 +55,20 @@ async function createLink() {
     shorten_result.textContent = `https://shortlinks-2vs.pages.dev/${code}`;
   } finally {
     shorten_btn.disabled = false;
-    shorten_btn.textContent = "Encurtar";
+    shorten_btn.classList.remove("disabled");
+    shortingAnimate_bool = false;
+  }
+}
+
+async function linkCopy(shortLink) {
+  try {
+    if (!shortLink) {
+      return erro;
+    }
+    await navigator.clipboard.writeText(shortLink);
+    return true;
+  } catch (erro) {
+    alert("Falha ao copiar o link.");
+    return false;
   }
 }

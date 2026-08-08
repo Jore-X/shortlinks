@@ -11,3 +11,17 @@ input_url.addEventListener("input", () => {
 });
 
 shorten_btn.addEventListener("click", createLink);
+
+// __________________________________________________
+const copy_btn = document.querySelector(".copy-btn");
+
+copy_btn.addEventListener("click", async function () {
+  const sucess = await linkCopy(shorten_result.textContent);
+  console.log(sucess);
+  if (sucess) {
+    copy_btn.classList.add("sucess");
+    setTimeout(() => {
+      copy_btn.classList.remove("sucess");
+    }, 2000);
+  }
+});

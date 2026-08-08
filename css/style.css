@@ -99,11 +99,31 @@ button {
 .copy-btn {
   position: absolute;
   right: 0;
-  aspect-ratio: 1/1;
   height: 100%;
+  min-width: 40px;
+  width: 10%;
   top: 0;
   padding: 0 12px;
   border-radius: 8px;
   background: var(--gradient-button);
   color: var(--floral-white);
+  transition: width 0.4s ease;
+}
+.copy-btn > span {
+  display: none;
+}
+.copy-btn.sucess {
+  width: 20%;
+  min-width: 100px;
+}
+.copy-btn.sucess > span {
+  display: flex;
+  width: 100%;
+  text-wrap: none;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.copy-btn.sucess > i {
+  display: none;
 }
