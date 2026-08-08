@@ -1,4 +1,4 @@
-const shorten_btn = document.querySelector(".shorten");
+const shorten_btn = document.querySelector(".shorten-btn");
 const shorten_result = document.querySelector("#shorten_result");
 const input_url = document.getElementById("original_url_input");
 

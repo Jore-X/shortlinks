@@ -38,7 +38,7 @@ async function createLink() {
       shorten_result.textContent = "Não foi possível criar o link.";
       return;
     }
-    shorten_result.textContent = `Seu link: https://shortlinks-2vs.pages.dev/${code}`;
+    shorten_result.textContent = `https://shortlinks-2vs.pages.dev/${code}`;
   } finally {
     shorten_btn.disabled = false;
     shorten_btn.textContent = "Encurtar";

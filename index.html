@@ -4,23 +4,44 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
+      integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Montserrat:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="./css/style.css" />
     <title>Shortlinks</title>
   </head>
   <body>
-    <div class="container">
-      <h2>ShortLinks</h2>
-      <div>
-        <input
-          type="url"
-          id="original_url_input"
-          placeholder="Digite uma URL."
-        />
-        <button class="shorten">Encurtar</button>
+    <section class="section-shortLink">
+      <div class="container">
+        <div class="title-section">ShortLinks</div>
+        <div class="input-div">
+          <input
+            type="url"
+            id="original_url_input"
+            placeholder="Digite uma URL."
+          />
+          <button class="shorten-btn">Encurtar</button>
+        </div>
+        <div class="shorten-result-title">
+          Link Encurtado<i class="fa-solid fa-arrow-turn-down"></i>
+        </div>
+        <div class="shorten-result-box">
+          <div id="shorten_result"></div>
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i></button>
+        </div>
       </div>
-      <h4>Codigo short</h4>
-      <p id="shorten_result"></p>
-    </div>
+    </section>
     <script src="./js/app.js" defer></script>
     <script src="./js/supabase.js"></script>
     <script src="./js/utils.js"></script>
