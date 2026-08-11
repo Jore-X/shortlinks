@@ -2,6 +2,17 @@ function gerarCodigo() {
   return Math.random().toString(36).substring(2, 8);
 }
 
+async function regressiveCount(count) {
+  while (count >= 0) {
+    shorten_btn.textContent = `${count}`;
+    count--;
+    await new Promise((r) => setTimeout(r, 1000));
+  }
+  shorten_btn.textContent = "Encurtar";
+  shorten_btn.disabled = false;
+  shorten_btn.classList.remove("disabled");
+}
+
 async function fluxSearch(code) {
   const response = await searchLink(code);
 
@@ -19,27 +30,25 @@ async function fluxInsert(code, url) {
 }
 
 async function createLink() {
+  shorten_result.textContent = "";
+  
   const url = input_url.value;
 
   if (!validateURL(url)) {
     input_url.placeholder = "URL invalida.";
+    input_url.style.borderColor = "red";
     input_url.reportValidity();
 
     return;
   }
-  const shortingState = ["Encurtando.", "Encurtando..", "Encurtando..."];
   let i = 0;
-  let shortingAnimate_bool = true;
-  const shortingAnimate = setInterval(() => {
-    shorten_btn.textContent = shortingState[i];
-    i++;
-    if (i >= shortingState.length) {
-      i = 0;
-    }
+  let waitingLink_bool = true;
+  const waitingLink = setInterval(() => {
+    shorten_btn.innerHTML = `<i class="fa-solid fa-circle-notch"></i>`;
 
-    if (shortingAnimate_bool === false) {
-      clearInterval(shortingAnimate);
-      shorten_btn.textContent = "Encurtar";
+    if (waitingLink_bool === false) {
+      clearInterval(waitingLink);
+      regressiveCount(5);
     }
   }, 500);
   shorten_btn.disabled = true;
@@ -49,20 +58,25 @@ async function createLink() {
     const sucess = await fluxInsert(code, url);
 
     if (!sucess) {
-      shorten_result.textContent = "Não foi possível criar o link.";
+      shorten_result.textContent =
+        "Não foi possível criar o link, verifique e tente novamente.";
+      copy_btn.classList.add("disable");
+      copy_btn.disabled = true;
       return;
     }
+    copy_btn.classList.remove("disable");
+    copy_btn.disabled = false;
+
     shorten_result.textContent = `https://shortlinks-2vs.pages.dev/${code}`;
+    input_url.value = "";
   } finally {
-    shorten_btn.disabled = false;
-    shorten_btn.classList.remove("disabled");
-    shortingAnimate_bool = false;
+    waitingLink_bool = false;
   }
 }
 
 async function linkCopy(shortLink) {
   try {
-    if (!shortLink) {
+    if (!shortLink || !validateURL(shortLink)) {
       return erro;
     }
     await navigator.clipboard.writeText(shortLink);

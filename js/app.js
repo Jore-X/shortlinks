@@ -25,3 +25,10 @@ copy_btn.addEventListener("click", async function () {
     }, 2000);
   }
 });
+
+input_url.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    shorten_btn.click();
+  }
+});

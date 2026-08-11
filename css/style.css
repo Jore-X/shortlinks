@@ -1,3 +1,5 @@
+@import url(./keyframes.css);
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -76,6 +78,19 @@ button {
   letter-spacing: 1px;
   font-weight: 550;
   font-size: 0.9rem;
+  max-width: 100px;
+  width: 100%;
+  transition: filter 0.6s ease;
+}
+.shorten-btn.disabled {
+  filter: brightness(0.6);
+}
+.shorten-btn > i {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  animation: spinLoad 2s linear infinite;
 }
 .shorten-result-title {
   font-weight: 550;
@@ -85,10 +100,13 @@ button {
   transform: translateY(50%);
 }
 .shorten-result-box {
+  display: flex;
+  justify-content: space-between;
   position: relative;
   overflow: hidden;
   border-radius: 8px;
   border: 2px solid var(--background-contrast);
+  background: var(--color-contrast);
 }
 #shorten_result {
   background: var(--color-contrast);
@@ -97,14 +115,15 @@ button {
   width: 100%;
 }
 .copy-btn {
-  position: absolute;
+  /* position: absolute; */
   right: 0;
   height: 100%;
   min-width: 40px;
+  max-width: 110px;
   width: 10%;
   top: 0;
   padding: 0 12px;
-  border-radius: 8px;
+  border-radius: 8px 0 0 8px;
   background: var(--gradient-button);
   color: var(--floral-white);
   transition: width 0.4s ease;
@@ -112,9 +131,13 @@ button {
 .copy-btn > span {
   display: none;
 }
+.copy-btn.disable {
+  filter: brightness(0.6);
+}
 .copy-btn.sucess {
-  width: 20%;
-  min-width: 100px;
+  width: 100%;
+  min-width: 90px;
+  max-width: 110px;
 }
 .copy-btn.sucess > span {
   display: flex;
