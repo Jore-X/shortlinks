@@ -1,7 +1,7 @@
-@import url(./styles/header.css);
-@import url(./styles/homepage.css);
-@import url(./styles/dashboard.css);
-@import url(./styles/keyframes.css);
+@import url(./header.css);
+@import url(./homepage.css);
+@import url(./dashboard.css);
+@import url(./keyframes.css);
 
 * {
   box-sizing: border-box;
