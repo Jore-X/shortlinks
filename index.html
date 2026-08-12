@@ -18,32 +18,63 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./style.css" />
     <title>Shortlinks</title>
   </head>
   <body>
-    <section class="section-shortLink">
-      <div class="container">
-        <div class="title-section">ShortLinks</div>
+    <header>
+      <div id="title_header">ShortLinks</div>
+      <ul class="navBar">
+        <li><a href="homepage">Inicio</a></li>
+        <li><a href="features">Recursos</a></li>
+        <li><a href="login">Entrar/Cadastrar</a></li>
+      </ul>
+    </header>
+    <section id="homepage">
+      <div class="shorten-container">
+        <div class="homepage-title">
+          Encurte Seus Links, <br />
+          Rastreie Seus Cliques.
+        </div>
         <div class="input-div">
           <input
             type="url"
             id="original_url_input"
-            placeholder="Digite uma URL."
+            placeholder="Cole seu URL longo aqui..."
           />
-          <button class="shorten-btn">
-            Encurtar
-          </button>
+          <button class="shorten-btn">Encurtar</button>
         </div>
-        <div class="shorten-result-title">
-          Link Encurtado<i class="fa-solid fa-arrow-turn-down"></i>
-        </div>
+      </div>
+      <div class="result-container">
+        <div class="shorten-result-title">Seu Link Encurtado:</div>
         <div class="shorten-result-box">
-          <div id="shorten_result">s</div>
+          <div id="shorten_result"></div>
           <button class="copy-btn">
-            <i class="fa-solid fa-copy"></i><span>Copiado ✓</span>
+            <span>Copiar Link</span>
+            <span class="copy-sucess">Copiado ✓</span>
           </button>
         </div>
+      </div>
+      <div class="dashboard">
+        <div class="dashboard-title">Painel de Gerenciamento de Links</div>
+        <table>
+          <tr>
+            <th>URL original</th>
+            <th>Códigos</th>
+            <th>Acessos</th>
+            <th>Ações</th>
+          </tr>
+          <tr>
+            <td>https://br.pinterest.com/pin/1010213760185638436/</td>
+            <td>teste1</td>
+            <td>17</td>
+            <td>
+              <button >
+                <span>Copiar Link</span>
+              </button>
+            </td>
+          </tr>
+        </table>
       </div>
     </section>
     <script src="./js/app.js" defer></script>

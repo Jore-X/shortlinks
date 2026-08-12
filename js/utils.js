@@ -31,7 +31,7 @@ async function fluxInsert(code, url) {
 
 async function createLink() {
   shorten_result.textContent = "";
-  
+
   const url = input_url.value;
 
   if (!validateURL(url)) {
@@ -69,6 +69,7 @@ async function createLink() {
 
     shorten_result.textContent = `https://shortlinks-2vs.pages.dev/${code}`;
     input_url.value = "";
+    input_url.placeholder = "Cole seu URL longo aqui...";
   } finally {
     waitingLink_bool = false;
   }
