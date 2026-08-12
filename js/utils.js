@@ -87,3 +87,57 @@ async function linkCopy(shortLink) {
     return false;
   }
 }
+
+function createNewRow(table, code, original_url, clicks) {
+  const newrow = document.createElement("tr");
+
+  const cellCode = document.createElement("td");
+  cellCode.textContent = code;
+
+  const cellUrl = document.createElement("td");
+  cellUrl.textContent = original_url;
+
+  const cellClicks = document.createElement("td");
+  cellClicks.textContent = clicks;
+
+  const copyBtn = document.createElement("td");
+  copyBtn.innerHTML = `<button>
+                          <span>Copiar Link</span>
+                      </button>`;
+
+  newrow.appendChild(cellCode);
+  newrow.appendChild(cellUrl);
+  newrow.appendChild(cellClicks);
+  newrow.appendChild(copyBtn);
+
+  return newrow;
+}
+
+async function table_increment(table, panel_links, panel_clicks) {
+  const response = await fetch("/stats");
+  const links = await response.json();
+
+  let total_links = 0;
+  let total_clicks = 0;
+
+  const table_fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < links.length; i++) {
+    table_fragment.appendChild(
+      createNewRow(
+        table,
+        links[i].code,
+        links[i].original_url,
+        links[i].clicks,
+      ),
+    );
+
+    total_links++;
+    total_clicks = total_clicks + links[i].clicks;
+  }
+
+  table.appendChild(table_fragment);
+
+  panel_links.textContent = `${total_links}`;
+  panel_clicks.textContent = `${total_clicks}`;
+}

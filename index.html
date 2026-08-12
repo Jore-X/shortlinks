@@ -57,24 +57,41 @@
       </div>
       <div class="dashboard">
         <div class="dashboard-title">Painel de Gerenciamento de Links</div>
-        <table>
-          <tr>
-            <th>URL original</th>
-            <th>Códigos</th>
-            <th>Acessos</th>
-            <th>Ações</th>
-          </tr>
-          <tr>
-            <td>https://br.pinterest.com/pin/1010213760185638436/</td>
-            <td>teste1</td>
-            <td>17</td>
-            <td>
-              <button>
-                <span>Copiar Link</span>
-              </button>
-            </td>
-          </tr>
-        </table>
+        <div class="panel-head">
+          <div class="panel-cards">
+            <div class="PC-title">Active Links</div>
+            <span id="span_links"></span>
+          </div>
+          <div class="panel-cards">
+            <div class="PC-title">Total de Acessos</div>
+            <span id="span_clicks"></span>
+          </div>
+        </div>
+        <div class="div-table">
+          <div class="header-table">
+            <div class="input-search-table">
+              <i class="fa-brands fa-sistrix"></i>
+              <input
+                type="text"
+                id="input_search_links"
+                placeholder="Procurar Links..."
+              />
+            </div>
+            <button class="btn-create-new-link">Criar Novo Link</button>
+          </div>
+          <table id="dashboard_table">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>URL original</th>
+                <th>Acessos</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
     <script src="./js/app.js" defer></script>

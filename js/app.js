@@ -32,3 +32,11 @@ input_url.addEventListener("keydown", function (event) {
     shorten_btn.click();
   }
 });
+
+// _____________________________________________________
+const table = document
+  .getElementById("dashboard_table")
+  .getElementsByTagName("tbody")[0];
+const span_links = document.getElementById("span_links");
+const span_clicks = document.getElementById("span_clicks");
+table_increment(table, span_links, span_clicks);

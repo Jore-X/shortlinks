@@ -2,7 +2,7 @@ header {
   display: flex;
   justify-content: space-around;
   padding: 8px;
-  background: var(--floral-white);
+  /* background: var(--floral-white); */
 }
 
 #title_header {

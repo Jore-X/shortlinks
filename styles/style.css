@@ -12,21 +12,11 @@
 }
 
 :root {
-  --deep-purple: #433075;
-  --lavender: #a58cf4;
 
-  --vibrante-muted: #7f49b4;
   --platinum-gray: #cfcfcf;
   --platinum-gray-50: rgba(207, 207, 207, 0.5);
 
   --dark-30: rgba(0, 0, 0, 0.3);
-  --blue-text: #94a3b8;
-  --dark-blue: #000612;
-  --dark-blue2: #040b1b;
-  --color-contrast: #845ad8;
-  --background-contrast: #100f2c;
-  --indigo-eltrico-100: rgb(111, 0, 255);
-  --indigo-eltrico-30: rgba(111, 0, 255, 0.3);
   --floral-white: #fffaf0;
   --floral-white-50: rgba(255, 250, 240, 0.5);
 
@@ -42,8 +32,4 @@ li {
 }
 button {
   border: none;
-}
-th,td{
-  padding: 8px;
-  text-align: start;
 }
