@@ -2,6 +2,13 @@ function gerarCodigo() {
   return Math.random().toString(36).substring(2, 8);
 }
 
+function cutText(text, limit) {
+  if (text.length > limit) {
+    return text.slice(0, limit) + "...";
+  }
+  return text;
+}
+
 async function regressiveCount(count) {
   while (count >= 0) {
     shorten_btn.textContent = `${count}`;
@@ -95,7 +102,7 @@ function createNewRow(table, code, original_url, clicks) {
   cellCode.textContent = code;
 
   const cellUrl = document.createElement("td");
-  cellUrl.textContent = original_url;
+  cellUrl.textContent = cutText(original_url, 38);
 
   const cellClicks = document.createElement("td");
   cellClicks.textContent = clicks;
@@ -117,23 +124,25 @@ async function table_increment(table, panel_links, panel_clicks) {
   const response = await fetch("/stats");
   const links = await response.json();
 
+  const links_ordenados = links.toSorted((a, b) => b.clicks - a.clicks);
+
   let total_links = 0;
   let total_clicks = 0;
 
   const table_fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < links.length; i++) {
+  for (let i = 0; i < links_ordenados.length; i++) {
     table_fragment.appendChild(
       createNewRow(
         table,
-        links[i].code,
-        links[i].original_url,
-        links[i].clicks,
+        links_ordenados[i].code,
+        links_ordenados[i].original_url,
+        links_ordenados[i].clicks,
       ),
     );
 
     total_links++;
-    total_clicks = total_clicks + links[i].clicks;
+    total_clicks = total_clicks + links_ordenados[i].clicks;
   }
 
   table.appendChild(table_fragment);

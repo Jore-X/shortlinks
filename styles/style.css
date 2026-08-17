@@ -12,7 +12,6 @@
 }
 
 :root {
-
   --platinum-gray: #cfcfcf;
   --platinum-gray-50: rgba(207, 207, 207, 0.5);
 
@@ -32,4 +31,5 @@ li {
 }
 button {
   border: none;
+  cursor: pointer;
 }

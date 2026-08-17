@@ -39,4 +39,13 @@ const table = document
   .getElementsByTagName("tbody")[0];
 const span_links = document.getElementById("span_links");
 const span_clicks = document.getElementById("span_clicks");
+const refresh_btn = document.querySelector(".refresh-table");
 table_increment(table, span_links, span_clicks);
+refresh_btn.addEventListener("click", () => {
+  table.innerHTML = "";
+  table_increment(table, span_links, span_clicks);
+  refresh_btn.classList.add("animate-on");
+  setTimeout(() => {
+    refresh_btn.classList.remove("animate-on");
+  }, 2000);
+});
