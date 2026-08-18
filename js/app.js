@@ -40,12 +40,34 @@ const table = document
 const span_links = document.getElementById("span_links");
 const span_clicks = document.getElementById("span_clicks");
 const refresh_btn = document.querySelector(".refresh-table");
-table_increment(table, span_links, span_clicks);
+const selectOption = document.getElementById("filter_Table");
+
+table_increment(table, span_links, span_clicks, selectOption.value);
 refresh_btn.addEventListener("click", () => {
   table.innerHTML = "";
-  table_increment(table, span_links, span_clicks);
+  table_increment(table, span_links, span_clicks, selectOption.value);
   refresh_btn.classList.add("animate-on");
   setTimeout(() => {
     refresh_btn.classList.remove("animate-on");
   }, 2000);
+});
+// _____________________________________________________
+selectOption.addEventListener("change", function () {
+  table.innerHTML = "";
+  table_increment(table, span_links, span_clicks, selectOption.value);
+});
+// _____________________________________________________
+
+const homepage = document.getElementById("homepage");
+const href_homepage = document.querySelector(".href-homepage");
+const dashboard = document.getElementById("dashboard");
+const href_dashboard = document.querySelector(".href-dashboard");
+
+href_homepage.addEventListener("click", () => {
+  homepage.classList.add("show");
+  dashboard.classList.remove("show");
+});
+href_dashboard.addEventListener("click", () => {
+  dashboard.classList.add("show");
+  homepage.classList.remove("show");
 });

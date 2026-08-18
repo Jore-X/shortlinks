@@ -28,6 +28,7 @@ a,
 li {
   text-decoration: none;
   list-style: none;
+  cursor: pointer;
 }
 button {
   border: none;

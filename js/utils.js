@@ -120,33 +120,77 @@ function createNewRow(table, code, original_url, clicks) {
   return newrow;
 }
 
-async function table_increment(table, panel_links, panel_clicks) {
+async function table_increment(table, panel_links, panel_clicks, selectOption) {
   const response = await fetch("/stats");
   const links = await response.json();
 
-  const links_ordenados = links.toSorted((a, b) => b.clicks - a.clicks);
+  const ordered_codes = links.toSorted((a, b) => a.code.localeCompare(b.code));
+  const ordered_clicks = links.toSorted((a, b) => b.clicks - a.clicks);
+  const ordered_recent = links.toSorted((a, b) => {
+    const dataA = new Date(a.created_at.replace(" ", "T")).getTime();
+    const dataB = new Date(b.created_at.replace(" ", "T")).getTime();
+
+    return dataB - dataA;
+  });
+  const ordered_old = links.toSorted((a, b) => {
+    const dataA = new Date(a.created_at.replace(" ", "T")).getTime();
+    const dataB = new Date(b.created_at.replace(" ", "T")).getTime();
+
+    return dataA - dataB;
+  });
 
   let total_links = 0;
   let total_clicks = 0;
 
   const table_fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < links_ordenados.length; i++) {
-    table_fragment.appendChild(
-      createNewRow(
-        table,
-        links_ordenados[i].code,
-        links_ordenados[i].original_url,
-        links_ordenados[i].clicks,
-      ),
-    );
+  const increment_ordered_links = (ordered_Links) => {
+    for (let i = 0; i < ordered_Links.length; i++) {
+      table_fragment.appendChild(
+        createNewRow(
+          table,
+          ordered_Links[i].code,
+          ordered_Links[i].original_url,
+          ordered_Links[i].clicks,
+        ),
+      );
 
-    total_links++;
-    total_clicks = total_clicks + links_ordenados[i].clicks;
+      total_links++;
+      total_clicks = total_clicks + ordered_Links[i].clicks;
+    }
+  };
+
+  if (selectOption == "clicks") {
+    increment_ordered_links(ordered_clicks);
+  } else if (selectOption == "codes") {
+    increment_ordered_links(ordered_codes);
+  } else if (selectOption == "recent") {
+    increment_ordered_links(ordered_recent);
+  } else if (selectOption == "old") {
+    increment_ordered_links(ordered_old);
   }
 
   table.appendChild(table_fragment);
 
   panel_links.textContent = `${total_links}`;
   panel_clicks.textContent = `${total_clicks}`;
+}
+
+function filterTable() {
+  const input = document
+    .getElementById("input_search_links")
+    .value.toLowerCase();
+
+  const rows = document
+    .querySelector("#dashboard_table tbody")
+    .getElementsByTagName("tr");
+
+  for (let i = 0; i < rows.length; i++) {
+    const text = rows[i].textContent || rows[i].innerText;
+    if (text.toLowerCase().indexOf(input) > -1) {
+      rows[i].style.display = "";
+    } else {
+      rows[i].style.display = "none";
+    }
+  }
 }

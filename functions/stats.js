@@ -3,7 +3,7 @@ export async function onRequest(context) {
   const supabaseKey = context.env.SUPABASE_ANON_KEY;
   const code = context.params.code;
 
-  const response = await fetch(`${supabaseUrl}/rest/v1/links?select=code,original_url,clicks`, {
+  const response = await fetch(`${supabaseUrl}/rest/v1/links?select=code,original_url,clicks,created_at`, {
     headers: {
       apikey: supabaseKey,
       Authorization: `Bearer ${supabaseKey}`,

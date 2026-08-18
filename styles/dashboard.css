@@ -1,9 +1,12 @@
-.dashboard {
+#dashboard {
   width: 100%;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+#dashboard.show {
+  display: flex;
 }
 .dashboard-title {
   padding: 8px;
@@ -37,6 +40,26 @@
   justify-content: flex-end;
   padding: 4px;
   gap: 10px;
+}
+.select-div {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--dark-30);
+  border-radius: 8px;
+  padding: 0 4px;
+}
+.select-div > label {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+select {
+  height: 100%;
+  padding: 4px;
+  border: none;
+}
+select:focus {
+  outline-style: none;
 }
 
 .refresh-table {
