@@ -44,7 +44,7 @@ const selectOption = document.getElementById("filter_Table");
 
 table_increment(table, span_links, span_clicks, selectOption.value);
 refresh_btn.addEventListener("click", () => {
-  table.innerHTML = "";
+  table.innerHTML = ``;
   table_increment(table, span_links, span_clicks, selectOption.value);
   refresh_btn.classList.add("animate-on");
   setTimeout(() => {

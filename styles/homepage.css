@@ -1,17 +1,27 @@
 /* #homepage * {border: 1px solid;} */
 #homepage {
-  display: none;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
-  min-height: 90dvh;
+  min-height: 100dvh;
   flex-direction: column;
   /* background: var(--floral-white); */
   font-family: "Montserrat", sans-serif;
+  transition: opacity 0.6s ease-in, transform 0.8s ease;
+  transform: translateY(50px) scaleY(0.7);
 }
 #homepage.show {
-  display: flex;
+  transform: translateY(0) scaleY(1);
+  z-index: 2;
+  opacity: 1;
+  pointer-events: auto;
 }
 .homepage-title {
   font-size: 1.8rem;
@@ -24,10 +34,10 @@
 .shorten-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   max-width: 600px;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   padding: 16px;
 }
 .input-div {

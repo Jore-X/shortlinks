@@ -24,6 +24,15 @@
   --line-gray: #e2eaf7;
   --main-text: #1f2937;
 }
+html {
+  scrollbar-width: none;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+body {
+  position: relative;
+}
 a,
 li {
   text-decoration: none;
@@ -33,4 +42,8 @@ li {
 button {
   border: none;
   cursor: pointer;
+}
+
+.sections {
+  padding: 50px 0 0;
 }
