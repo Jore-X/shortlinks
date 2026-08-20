@@ -97,6 +97,7 @@ async function linkCopy(shortLink) {
 
 function createNewRow(table, code, original_url, clicks) {
   const newrow = document.createElement("tr");
+  newrow.classList.add("table-rows");
 
   const cellCode = document.createElement("td");
   cellCode.textContent = code;
@@ -123,6 +124,9 @@ function createNewRow(table, code, original_url, clicks) {
 async function table_increment(table, panel_links, panel_clicks, selectOption) {
   const response = await fetch("/stats");
   const links = await response.json();
+  links_quantidade = links.length;
+  changePagesCalc(pageState, lines_per_column);
+  page_number.textContent = `Página ${pageState}/${Math.ceil(links_quantidade / 10)}`;
 
   const ordered_codes = links.toSorted((a, b) => a.code.localeCompare(b.code));
   const ordered_clicks = links.toSorted((a, b) => b.clicks - a.clicks);
@@ -144,16 +148,35 @@ async function table_increment(table, panel_links, panel_clicks, selectOption) {
 
   const table_fragment = document.createDocumentFragment();
 
+  // const increment_ordered_links = (ordered_Links) => {
+  //   for (let i = 0; i < ordered_Links.length; i++) {
+  //     table_fragment.appendChild(
+  //       createNewRow(
+  //         table,
+  //         ordered_Links[i].code,
+  //         ordered_Links[i].original_url,
+  //         ordered_Links[i].clicks,
+  //       ),
+  //     );
+
+  //     total_links++;
+  //     total_clicks = total_clicks + ordered_Links[i].clicks;
+  //   }
+  // };
   const increment_ordered_links = (ordered_Links) => {
+    clearTable(0);
+    table.appendChild(createEmptyTable(ordered_Links.length));
+
+    const tbody = document.querySelector("#dashboard_table tbody");
+    const links_keys = Object.keys(ordered_Links[0]);
+
     for (let i = 0; i < ordered_Links.length; i++) {
-      table_fragment.appendChild(
-        createNewRow(
-          table,
-          ordered_Links[i].code,
-          ordered_Links[i].original_url,
-          ordered_Links[i].clicks,
-        ),
-      );
+      for (let i = 0; i < ordered_Links.length; i++) {
+        for (let j = 0; j < 3; j++) {
+          const key = links_keys[j];
+          tbody.rows[i].cells[j].textContent = `${ordered_Links[i][key]}`;
+        }
+      }
 
       total_links++;
       total_clicks = total_clicks + ordered_Links[i].clicks;
@@ -180,7 +203,6 @@ function filterTable() {
   const input = document
     .getElementById("input_search_links")
     .value.toLowerCase();
-
   const rows = document
     .querySelector("#dashboard_table tbody")
     .getElementsByTagName("tr");
@@ -191,6 +213,69 @@ function filterTable() {
       rows[i].style.display = "";
     } else {
       rows[i].style.display = "none";
+    }
+  }
+}
+
+function createEmptyTable(numberRows) {
+  const emptyTable = document.createDocumentFragment();
+  for (let i = 1; i <= numberRows; i++) {
+    const newrow = document.createElement("tr");
+    newrow.classList.add("table-rows");
+
+    const cellCode = document.createElement("td");
+
+    const cellUrl = document.createElement("td");
+
+    const cellClicks = document.createElement("td");
+
+    const copyBtn = document.createElement("td");
+    copyBtn.classList.add("cell-copy-btn")
+    copyBtn.innerHTML = `<button class="btn-copy-table">
+                          <span>Copiar Link</span>
+                      </button>`;
+
+    newrow.appendChild(cellCode);
+    newrow.appendChild(cellUrl);
+    newrow.appendChild(cellClicks);
+    newrow.appendChild(copyBtn);
+
+    emptyTable.appendChild(newrow);
+  }
+
+  return emptyTable;
+}
+
+function clearTable(remaining_amount) {
+  const tbody = document.querySelector("#dashboard_table tbody");
+
+  for (let i = 0; i < remaining_amount; i++) {
+    for (let j = 0; j < 3; j++) {
+      tbody.rows[i].cells[j].textContent = ``;
+    }
+  }
+
+  while (tbody.children.length > remaining_amount) {
+    tbody.deleteRow(tbody.rows.length - 1);
+  }
+}
+
+function changePagesCalc(page, lines_per_column) {
+  const table_rows = document.querySelectorAll(".table-rows");
+
+  let limit = lines_per_column * page;
+  let start = limit - lines_per_column;
+  console.log(table_rows.length);
+
+  for (let i = 0; i < table_rows.length; i++) {
+    if (i < start) {
+      table_rows[i].style.display = "none";
+    }
+    if (i >= start && i < limit) {
+      table_rows[i].style.display = "";
+    }
+    if (i < start || i >= limit) {
+      table_rows[i].style.display = "none";
     }
   }
 }
