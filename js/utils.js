@@ -95,6 +95,25 @@ async function linkCopy(shortLink) {
   }
 }
 
+async function copy_btns_link() {
+  const code_rows = document.querySelectorAll(".code-td");
+  const btns_copy_table = document.querySelectorAll(".btn-copy-table");
+  btns_copy_table.forEach((btn, index) => {
+    btn.addEventListener("click", async function () {
+      const sucess = await linkCopy(
+        `https://shortlinks-2vs.pages.dev/${code_rows[index].textContent}`,
+      );
+
+      if (sucess) {
+        btn.classList.add("sucess");
+        setTimeout(() => {
+          btn.classList.remove("sucess");
+        }, 2000);
+      }
+    });
+  });
+}
+
 function createNewRow(table, code, original_url, clicks) {
   const newrow = document.createElement("tr");
   newrow.classList.add("table-rows");
@@ -124,7 +143,7 @@ function createNewRow(table, code, original_url, clicks) {
 async function table_increment(table, panel_links, panel_clicks, selectOption) {
   const response = await fetch("/stats");
   const links = await response.json();
-  links_quantidade = links.length;
+  links_quantidade = Math.ceil(links.length / 10) * 10;
   changePagesCalc(pageState, lines_per_column);
   page_number.textContent = `Página ${pageState}/${Math.ceil(links_quantidade / 10)}`;
 
@@ -174,10 +193,12 @@ async function table_increment(table, panel_links, panel_clicks, selectOption) {
       for (let i = 0; i < ordered_Links.length; i++) {
         for (let j = 0; j < 3; j++) {
           const key = links_keys[j];
-          tbody.rows[i].cells[j].textContent = `${ordered_Links[i][key]}`;
+          tbody.rows[i].cells[j].textContent =
+            `${cutText(ordered_Links[i][key], 38)}`;
         }
       }
 
+      copy_btns_link();
       total_links++;
       total_clicks = total_clicks + ordered_Links[i].clicks;
     }
@@ -218,21 +239,24 @@ function filterTable() {
 }
 
 function createEmptyTable(numberRows) {
+  numberRows = Math.ceil(numberRows / 10) * 10;
   const emptyTable = document.createDocumentFragment();
   for (let i = 1; i <= numberRows; i++) {
     const newrow = document.createElement("tr");
     newrow.classList.add("table-rows");
 
     const cellCode = document.createElement("td");
+    cellCode.classList.add("code-td");
 
     const cellUrl = document.createElement("td");
 
     const cellClicks = document.createElement("td");
 
     const copyBtn = document.createElement("td");
-    copyBtn.classList.add("cell-copy-btn")
+    copyBtn.classList.add("cell-copy-btn");
     copyBtn.innerHTML = `<button class="btn-copy-table">
                           <span>Copiar Link</span>
+                          <span>Copiado!</span>
                       </button>`;
 
     newrow.appendChild(cellCode);
@@ -265,7 +289,6 @@ function changePagesCalc(page, lines_per_column) {
 
   let limit = lines_per_column * page;
   let start = limit - lines_per_column;
-  console.log(table_rows.length);
 
   for (let i = 0; i < table_rows.length; i++) {
     if (i < start) {

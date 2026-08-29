@@ -149,6 +149,7 @@ th {
   padding: 4px;
 }
 .btn-copy-table {
+  position: relative;
   background: var(--light-blue);
   color: var(--floral-white);
   display: flex;
@@ -161,6 +162,27 @@ th {
 .btn-copy-table > span {
   width: 100%;
   font-size: 0.7rem;
+}
+.btn-copy-table > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-copy-table > :nth-child(1) {
+  opacity: 1;
+}
+.btn-copy-table > :nth-child(2) {
+  opacity: 0;
+}
+.btn-copy-table.sucess > :nth-child(1) {
+  opacity: 0;
+}
+.btn-copy-table.sucess > :nth-child(2) {
+  opacity: 1;
 }
 tr:nth-child(even) {
   background: #e9e9e9;
