@@ -14,7 +14,9 @@
   flex-direction: column;
   /* background: var(--floral-white); */
   font-family: "Montserrat", sans-serif;
-  transition: opacity 0.6s ease-in, transform 0.8s ease;
+  transition:
+    opacity 0.6s ease-in,
+    transform 0.8s ease;
   transform: translateY(50px);
 }
 #homepage.show {
@@ -31,7 +33,8 @@
   text-align: center;
 }
 .result-container,
-.shorten-container {
+.shorten-container,
+.recent-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -88,11 +91,15 @@
   justify-content: space-between;
   overflow: hidden;
   border-radius: 8px;
-  border: 1px solid var(--slate-blue);
-  background: var(--slate-blue);
+  /* border: 1px solid var(--slate-blue);
+  background: var(--slate-blue); */
+  border-radius: 5px;
+  border-width: 0 0 1px 5px;
+  border-style: solid;
+  border-color: var(--light-blue);
 }
 #shorten_result {
-  background: var(--line-gray);
+  background: linear-gradient(to top, var(--line-gray), transparent);
   color: var(--main-text);
   padding: 8px;
   min-height: 32px;
@@ -125,4 +132,71 @@
 }
 .copy-btn.sucess > span {
   display: none;
+}
+
+.recent-div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.recent-title {
+  padding: 4px;
+  font-weight: 650;
+}
+
+.recent-item {
+  border-radius: 5px;
+  border-width: 0 0 1px 5px;
+  border-style: solid;
+  border-color: var(--light-blue);
+
+  display: flex;
+  min-height: 40px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 14px;
+  gap: 10px;
+}
+
+.recent-item > span {
+  width: 90%;
+}
+
+.recent-btn-copy {
+  position: relative;
+  background: var(--light-blue);
+  color: var(--floral-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 0px;
+  min-width: 65px;
+  min-height: 30px;
+  border-radius: 8px;
+}
+
+.recent-btn-copy > span {
+  width: 100%;
+  font-size: 0.75rem;
+}
+.recent-btn-copy > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.recent-btn-copy > :nth-child(1) {
+  opacity: 1;
+}
+.recent-btn-copy > :nth-child(2) {
+  opacity: 0;
+}
+.recent-btn-copy.sucess > :nth-child(1) {
+  opacity: 0;
+}
+.recent-btn-copy.sucess > :nth-child(2) {
+  opacity: 1;
 }

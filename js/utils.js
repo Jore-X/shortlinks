@@ -201,7 +201,7 @@ async function table_increment(table, panel_links, panel_clicks, selectOption) {
             `${cutText(ordered_Links[i][key], 38)}`;
           if (j === 2) {
             tbody.rows[i].cells[j + 1].innerHTML =
-              `<button class="btn-copy-table">
+                      `<button class="btn-copy-table">
                           <span>Copiar Link</span>
                           <span>Copiado!</span>
                       </button>`;
