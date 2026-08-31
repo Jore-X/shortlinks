@@ -84,7 +84,11 @@ async function createLink() {
 
 async function linkCopy(shortLink) {
   try {
-    if (!shortLink || !validateURL(shortLink)) {
+    if (
+      !shortLink ||
+      !validateURL(shortLink) ||
+      shortLink === `https://shortlinks-2vs.pages.dev/`
+    ) {
       return erro;
     }
     await navigator.clipboard.writeText(shortLink);
@@ -195,13 +199,20 @@ async function table_increment(table, panel_links, panel_clicks, selectOption) {
           const key = links_keys[j];
           tbody.rows[i].cells[j].textContent =
             `${cutText(ordered_Links[i][key], 38)}`;
+          if (j === 2) {
+            tbody.rows[i].cells[j + 1].innerHTML =
+              `<button class="btn-copy-table">
+                          <span>Copiar Link</span>
+                          <span>Copiado!</span>
+                      </button>`;
+          }
         }
       }
 
-      copy_btns_link();
       total_links++;
       total_clicks = total_clicks + ordered_Links[i].clicks;
     }
+    copy_btns_link();
   };
 
   if (selectOption == "clicks") {
@@ -254,10 +265,10 @@ function createEmptyTable(numberRows) {
 
     const copyBtn = document.createElement("td");
     copyBtn.classList.add("cell-copy-btn");
-    copyBtn.innerHTML = `<button class="btn-copy-table">
-                          <span>Copiar Link</span>
-                          <span>Copiado!</span>
-                      </button>`;
+    // copyBtn.innerHTML = `<button class="btn-copy-table">
+    //                       <span>Copiar Link</span>
+    //                       <span>Copiado!</span>
+    //                   </button>`;
 
     newrow.appendChild(cellCode);
     newrow.appendChild(cellUrl);
