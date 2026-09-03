@@ -49,7 +49,10 @@ input_url.addEventListener("keydown", function (event) {
   }
 });
 
-// _____________________________________________________
+increment_recents_home(0);
+
+
+// ______________________________________________________________________________________
 const lines_per_column = 10;
 let links_quantidade;
 let pageState = 1;

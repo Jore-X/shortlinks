@@ -75,6 +75,7 @@ async function createLink() {
     copy_btn.disabled = false;
 
     shorten_result.textContent = `https://shortlinks-2vs.pages.dev/${code}`;
+    refresh_btn.click();
     input_url.value = "";
     input_url.placeholder = "Cole seu URL longo aqui...";
   } finally {
@@ -159,6 +160,7 @@ async function table_increment(table, panel_links, panel_clicks, selectOption) {
 
     return dataB - dataA;
   });
+  increment_recents_home(ordered_recent);
   const ordered_old = links.toSorted((a, b) => {
     const dataA = new Date(a.created_at.replace(" ", "T")).getTime();
     const dataB = new Date(b.created_at.replace(" ", "T")).getTime();
@@ -171,23 +173,13 @@ async function table_increment(table, panel_links, panel_clicks, selectOption) {
 
   const table_fragment = document.createDocumentFragment();
 
-  // const increment_ordered_links = (ordered_Links) => {
-  //   for (let i = 0; i < ordered_Links.length; i++) {
-  //     table_fragment.appendChild(
-  //       createNewRow(
-  //         table,
-  //         ordered_Links[i].code,
-  //         ordered_Links[i].original_url,
-  //         ordered_Links[i].clicks,
-  //       ),
-  //     );
-
-  //     total_links++;
-  //     total_clicks = total_clicks + ordered_Links[i].clicks;
-  //   }
-  // };
   const increment_ordered_links = (ordered_Links) => {
     clearTable(0);
+
+    if (!ordered_Links || ordered_Links == "") {
+      table_fragment.appendChild(createEmptyTable(10));
+      return;
+    }
     table.appendChild(createEmptyTable(ordered_Links.length));
 
     const tbody = document.querySelector("#dashboard_table tbody");
@@ -201,7 +193,7 @@ async function table_increment(table, panel_links, panel_clicks, selectOption) {
             `${cutText(ordered_Links[i][key], 38)}`;
           if (j === 2) {
             tbody.rows[i].cells[j + 1].innerHTML =
-                      `<button class="btn-copy-table">
+              `<button class="btn-copy-table">
                           <span>Copiar Link</span>
                           <span>Copiado!</span>
                       </button>`;
@@ -311,5 +303,67 @@ function changePagesCalc(page, lines_per_column) {
     if (i < start || i >= limit) {
       table_rows[i].style.display = "none";
     }
+  }
+}
+
+function increment_recents_home(recent_links) {
+  const recent_div = document.querySelector(".recent-div");
+  recent_div.innerHTML = ``;
+  const recent_box = document.createDocumentFragment();
+
+  if (recent_links.length == 0 || recent_links == "" || !recent_links) {
+    recent_div.innerHTML = `<div class="recent-item">
+            <span class="recent-item-link">Nenhum Link Encontrado.</span>
+          </div>`;
+  } else {
+    for (let i = 0; i < recent_links.length; i++) {
+      const row = document.createElement("div");
+      row.classList.add("recent-item");
+
+      const field = document.createElement("span");
+      field.classList.add("recent-item-link");
+      field.textContent = `https://shortlinks-2vs.pages.dev/${recent_links[i].code}`;
+
+      const btn_copy_field = document.createElement("button");
+      btn_copy_field.classList.add("recent-btn-copy");
+      btn_copy_field.dataset.index = i;
+
+      const btn_span1 = document.createElement("span");
+      const btn_span2 = document.createElement("span");
+
+      btn_span1.textContent = "Copiar";
+      btn_span2.textContent = "Copiado!";
+
+      btn_copy_field.appendChild(btn_span1);
+      btn_copy_field.appendChild(btn_span2);
+
+      row.appendChild(field);
+      row.appendChild(btn_copy_field);
+
+      recent_box.appendChild(row);
+
+      if (i >= 4) {
+        break;
+      }
+    }
+    recent_div.appendChild(recent_box);
+
+    recent_div.addEventListener("click", async function (event) {
+      const recent_link_ref = document.querySelectorAll(".recent-item-link");
+      const button_copy = event.target.closest(".recent-btn-copy");
+
+      if (!button_copy) return;
+
+      const index = button_copy.dataset.index;
+
+      const sucess = await linkCopy(recent_link_ref[index].textContent);
+
+      if (sucess) {
+        button_copy.classList.add("sucess");
+        setTimeout(() => {
+          button_copy.classList.remove("sucess");
+        }, 2000);
+      }
+    });
   }
 }
