@@ -13,6 +13,11 @@ href_dashboard.addEventListener("click", () => {
 });
 
 // _____________________________________________________
+const mobileQuery = window.matchMedia("(max-width: 768px)");
+let mobile_mode;
+
+mobileQuery.addEventListener("change", mobile_query);
+// _____________________________________________________
 
 const shorten_btn = document.querySelector(".shorten-btn");
 const shorten_result = document.querySelector("#shorten_result");
@@ -50,7 +55,6 @@ input_url.addEventListener("keydown", function (event) {
 });
 
 increment_recents_home(0);
-
 
 // ______________________________________________________________________________________
 const lines_per_column = 10;
