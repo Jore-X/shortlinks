@@ -28,6 +28,7 @@
   padding: 8px;
   font-weight: 700;
   font-size: 1.7rem;
+  text-align: center;
 }
 .panel-head {
   display: flex;
@@ -222,4 +223,13 @@ tr:nth-child(even) {
   background: var(--dark-30);
   border-radius: 8px;
   border: 1px solid var(--light-blue);
+}
+
+@media screen and (max-width: 768px) {
+  .panel-cards {
+    width: 40%;
+  }
+  .btn-create-new-link {
+    display: none;
+  }
 }
