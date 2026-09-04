@@ -2,13 +2,23 @@ function gerarCodigo() {
   return Math.random().toString(36).substring(2, 8);
 }
 
-function cutText(text, limit) {
+function cutText(start, text, limit) {
   if (text.length > limit) {
-    return text.slice(0, limit) + "...";
+    return text.slice(start, limit) + "...";
   }
   return text;
 }
-
+function mobile_query(e) {
+  if (e.matches) {
+    console.log("Entrou no mobile/tablet");
+    mobile_mode = true;
+    return true;
+  } else {
+    console.log("Entrou no modo desktop.");
+    mobile_mode = false;
+    return false;
+  }
+}
 async function regressiveCount(count) {
   while (count >= 0) {
     shorten_btn.textContent = `${count}`;
@@ -119,32 +129,6 @@ async function copy_btns_link() {
   });
 }
 
-function createNewRow(table, code, original_url, clicks) {
-  const newrow = document.createElement("tr");
-  newrow.classList.add("table-rows");
-
-  const cellCode = document.createElement("td");
-  cellCode.textContent = code;
-
-  const cellUrl = document.createElement("td");
-  cellUrl.textContent = cutText(original_url, 38);
-
-  const cellClicks = document.createElement("td");
-  cellClicks.textContent = clicks;
-
-  const copyBtn = document.createElement("td");
-  copyBtn.innerHTML = `<button>
-                          <span>Copiar Link</span>
-                      </button>`;
-
-  newrow.appendChild(cellCode);
-  newrow.appendChild(cellUrl);
-  newrow.appendChild(cellClicks);
-  newrow.appendChild(copyBtn);
-
-  return newrow;
-}
-
 async function table_increment(table, panel_links, panel_clicks, selectOption) {
   const response = await fetch("/stats");
   const links = await response.json();
@@ -184,13 +168,21 @@ async function table_increment(table, panel_links, panel_clicks, selectOption) {
 
     const tbody = document.querySelector("#dashboard_table tbody");
     const links_keys = Object.keys(ordered_Links[0]);
+    mobile_mode = mobile_query(mobileQuery);
 
     for (let i = 0; i < ordered_Links.length; i++) {
       for (let i = 0; i < ordered_Links.length; i++) {
         for (let j = 0; j < 3; j++) {
           const key = links_keys[j];
-          tbody.rows[i].cells[j].textContent =
-            `${cutText(ordered_Links[i][key], 38)}`;
+
+          if (mobile_mode) {
+            tbody.rows[i].cells[j].textContent =
+              `${cutText(8, ordered_Links[i][key], 20)}`;
+          } else if (!mobile_mode) {
+            tbody.rows[i].cells[j].textContent =
+              `${cutText(8, ordered_Links[i][key], 42)}`;
+          }
+
           if (j === 2) {
             tbody.rows[i].cells[j + 1].innerHTML =
               `<button class="btn-copy-table">
