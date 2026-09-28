@@ -134,7 +134,7 @@ async function table_increment(table, panel_links, panel_clicks, selectOption) {
   const {
     data: { session },
   } = await supabaseClient.auth.getSession(); //pega a sessão atual para autorizar a requisição
-  
+
   // _________________________________
   console.log("Sessão do dash ", session);
   const response = await fetch("/stats", {
@@ -157,7 +157,6 @@ async function table_increment(table, panel_links, panel_clicks, selectOption) {
 
     return dataB - dataA;
   });
-  increment_recents_home(ordered_recent);
   const ordered_old = links.toSorted((a, b) => {
     const dataA = new Date(a.created_at.replace(" ", "T")).getTime();
     const dataB = new Date(b.created_at.replace(" ", "T")).getTime();
@@ -311,12 +310,42 @@ function changePagesCalc(page, lines_per_column) {
   }
 }
 
-function increment_recents_home(recent_links) {
+async function increment_recents_home() {
+  let recent_links;
+  try {
+    const {
+      data: { session },
+    } = await supabaseClient.auth.getSession(); //pega a sessão atual para autorizar a requisição
+
+    // _____________________________
+
+    console.log("Sessão do dash ", session);
+    const response = await fetch("/stats", {
+      headers: {
+        Authorization: `Bearer ${session.access_token}`,
+      },
+    });
+    // __________________________________________________________________
+
+    const links = await response.json();
+    recent_links = links.toSorted((a, b) => {
+      const dataA = new Date(a.created_at.replace(" ", "T")).getTime();
+      const dataB = new Date(b.created_at.replace(" ", "T")).getTime();
+
+      return dataB - dataA;
+    });
+  } catch (error) {
+    console.error(
+      "Não foi possível carregar os links porque não havia uma sessão ativa ou a requisição falhou.",
+      `ERROR: `+error.message,
+    );
+  }
+
   const recent_div = document.querySelector(".recent-div");
   recent_div.innerHTML = ``;
   const recent_box = document.createDocumentFragment();
 
-  if (recent_links.length == 0 || recent_links == "" || !recent_links) {
+  if (!recent_links || recent_links == "" || recent_links.length == 0) {
     recent_div.innerHTML = `<div class="recent-item">
             <span class="recent-item-link">Nenhum Link Encontrado.</span>
           </div>`;
