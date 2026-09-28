@@ -29,6 +29,7 @@ async function teste() {
   console.log("Sessão atual: ", data.session);
 }
 teste();
+
 const login_form = document.getElementById("login_form");
 const signUp_form = document.getElementById("signUp_form");
 

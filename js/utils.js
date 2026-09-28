@@ -130,7 +130,20 @@ async function copy_btns_link() {
 }
 
 async function table_increment(table, panel_links, panel_clicks, selectOption) {
-  const response = await fetch("/stats");
+  // __________________________________________________________________
+  const {
+    data: { session },
+  } = await supabaseClient.auth.getSession(); //pega a sessão atual para autorizar a requisição
+  
+  // _________________________________
+  console.log("Sessão do dash ", session);
+  const response = await fetch("/stats", {
+    headers: {
+      Authorization: `Bearer ${session.access_token}`,
+    },
+  });
+  // __________________________________________________________________
+
   const links = await response.json();
   links_quantidade = Math.ceil(links.length / 10) * 10;
   changePagesCalc(pageState, lines_per_column);
