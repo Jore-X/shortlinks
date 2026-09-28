@@ -1,4 +1,4 @@
-const auth_sections = document.querySelectorAll(".auth-sections");
+const auth_sections = document.querySelectorAll(".auth-container");
 const signUp_acc_link = document.querySelector(".signUp-acc-link");
 const login_acc_link = document.querySelector(".login-acc-link");
 

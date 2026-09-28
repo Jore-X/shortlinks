@@ -2,6 +2,8 @@ const homepage = document.getElementById("homepage");
 const href_homepage = document.querySelectorAll(".href-homepage");
 const dashboard = document.getElementById("dashboard");
 const href_dashboard = document.querySelectorAll(".href-dashboard");
+const login = document.getElementById("login");
+const href_login = document.querySelectorAll(".href-login");
 const mobile_menu_btn = document.querySelector(".mobile-menu-btn");
 const mobile_menu_btn_icon = document.querySelector(".mobile-menu-btn > i");
 
@@ -9,6 +11,7 @@ href_homepage.forEach((href) => {
   href.addEventListener("click", () => {
     homepage.classList.add("show");
     dashboard.classList.remove("show");
+    login.classList.remove("show");
     
     mobile_menu.classList.toggle("active");
     mobile_menu_btn_icon.classList.toggle("fa-bars");
@@ -19,6 +22,18 @@ href_dashboard.forEach((href) => {
   href.addEventListener("click", () => {
     dashboard.classList.add("show");
     homepage.classList.remove("show");
+    login.classList.remove("show");
+
+    mobile_menu.classList.toggle("active");
+    mobile_menu_btn_icon.classList.toggle("fa-bars");
+    mobile_menu_btn_icon.classList.toggle("fa-x");
+  });
+});
+href_login.forEach((href) => {
+  href.addEventListener("click", () => {
+    login.classList.add("show");
+    homepage.classList.remove("show");
+    dashboard.classList.remove("show");
 
     mobile_menu.classList.toggle("active");
     mobile_menu_btn_icon.classList.toggle("fa-bars");
