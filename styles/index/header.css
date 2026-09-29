@@ -26,8 +26,57 @@ header {
   justify-content: space-around;
   max-width: 300px;
 }
+.usermenu {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.usermenu > * {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.usermenu,
+.href-login {
+  display: none;
+}
+
+.user-name {
+  font-weight: 550;
+  letter-spacing: 1px;
+}
+.btn-logout.btn-desktop {
+  border-radius: 4px;
+  aspect-ratio: 1/1;
+  padding: 4px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--red-muted);
+}
+.btn-logout.btn-desktop > i {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-logout.btn-li {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  color: var(--floral-white);
+  background:
+    linear-gradient(to top, rgba(0, 0, 0, 0.5), var(--red-muted)),
+    var(--red-muted);
+}
 .mobile-menu-btn {
   display: none;
+  gap: 4px;
   padding: 6px;
   font-size: 1rem;
   background: none;
@@ -75,7 +124,7 @@ header {
   padding: 4px 0;
   border-bottom: 1px solid;
   border-radius: 10px;
-  background: linear-gradient(to top, rgba(0,0,0,0.15), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.15), transparent);
 }
 .mobile-navBar > li,
 .mobile-navBar > li > a {

@@ -1,3 +1,4 @@
+// _____________________________________________________
 const mobileQuery = window.matchMedia("(max-width: 768px)");
 let mobile_mode;
 
@@ -20,6 +21,14 @@ const newLink_btn = document.querySelector(".btn-create-new-link");
 
 table.appendChild(createEmptyTable(10));
 async function wait() {
+  const {
+    data: { user },
+  } = await supabaseClient.auth.getUser();
+  if (!user) {
+    window.location.href = "./auth.html";
+    alert("Faça login para acessar o painel.")
+    return;
+  }
   await table_increment(table, span_links, span_clicks, selectOption.value);
   changePagesCalc(pageState, lines_per_column);
 }
@@ -47,7 +56,7 @@ input_search_links.addEventListener("blur", function () {
 });
 // _____________________________________________________
 newLink_btn.addEventListener("click", function () {
-  href_homepage.click();
+  window.location.href = "./index.html";
 });
 // _____________________________________________________
 const table_rows = document.querySelectorAll(".table-rows");

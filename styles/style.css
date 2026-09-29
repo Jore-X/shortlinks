@@ -24,6 +24,8 @@
   --slate-blue: #60a5fa;
   --line-gray: #e2eaf7;
   --main-text: #1f2937;
+
+  --red-muted: #d9534f;
 }
 html {
   scrollbar-width: none;

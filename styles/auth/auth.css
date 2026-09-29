@@ -126,3 +126,8 @@
 .container .form .close {
   display: none;
 }
+
+.form-message {
+  padding-left: 6px;
+  color: var(--red-muted);
+}

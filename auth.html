@@ -1,15 +1,24 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
+      integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./js/supabase.js"></script>
     <script src="./js/auth.js" defer></script>
+    <script src="./js/header.js" defer></script>
     <title>Autenticação Shortlinks</title>
     <link rel="stylesheet" href="./styles/style.css" />
   </head>
   <body>
+    <header id="header"></header>
     <section class="auth-container active">
       <div class="container">
         <div class="heading">Entre na sua conta</div>
@@ -17,7 +26,7 @@
           <div class="input-field">
             <input
               required=""
-              autocomplete="off"
+              autocomplete="on"
               type="email"
               name="email"
               id="login_email"
@@ -35,7 +44,7 @@
             />
             <label for="password">Senha</label>
           </div>
-
+          <p class="form-message" id="login_message"></p>
           <div class="btn-container">
             <button class="btn">Entrar</button>
             <div class="acc-text">
@@ -58,6 +67,16 @@
             <input
               required=""
               autocomplete="off"
+              type="text"
+              name="name"
+              id="signUp_name"
+            />
+            <label for="name">Nome</label>
+          </div>
+          <div class="input-field">
+            <input
+              required=""
+              autocomplete="on"
               type="email"
               name="email"
               id="signUp_email"
@@ -87,7 +106,7 @@
             />
             <label for="confirm_password">Confirme sua senha</label>
           </div>
-
+          <p class="form-message" id="signUp_message"></p>
           <div class="btn-container">
             <button class="btn" id="signUp_btn">Criar</button>
             <div class="acc-text">
