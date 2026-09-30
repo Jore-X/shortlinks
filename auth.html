@@ -44,7 +44,19 @@
             />
             <label for="password">Senha</label>
           </div>
-          <p class="form-message" id="login_message"></p>
+          <div class="form-message-box">
+            <p class="form-message" id="login_message"></p>
+            <div id="resend_confirmation_box" style="display: none">
+              <p>Não recebeu um email?</p>
+              <button
+                type="button"
+                class="resend-confirmation"
+                id="resend_confirmation"
+              >
+                Reenviar confirmação
+              </button>
+            </div>
+          </div>
           <div class="btn-container">
             <button class="btn">Entrar</button>
             <div class="acc-text">

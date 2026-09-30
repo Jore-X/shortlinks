@@ -85,7 +85,7 @@ async function createLink() {
     copy_btn.disabled = false;
 
     shorten_result.textContent = `https://shortlinks-2vs.pages.dev/${code}`;
-    refresh_btn.click();
+    increment_recents_home();
     input_url.value = "";
     input_url.placeholder = "Cole seu URL longo aqui...";
   } finally {
@@ -334,7 +334,6 @@ async function increment_recents_home() {
 
     // _____________________________
 
-    console.log("Sessão do dash ", session);
     const response = await fetch("/stats", {
       headers: {
         Authorization: `Bearer ${session.access_token}`,
@@ -361,9 +360,15 @@ async function increment_recents_home() {
   const recent_box = document.createDocumentFragment();
 
   if (!recent_links || recent_links == "" || recent_links.length == 0) {
-    recent_div.innerHTML = `<div class="recent-item">
-            <span class="recent-item-link">Nenhum Link Encontrado.</span>
-          </div>`;
+    if (loggedIn) {
+      recent_div.innerHTML = `<div class="recent-item">
+      <span class="recent-item-link">Nenhum Link Encontrado.</span>
+      </div>`;
+    } else {
+      recent_div.innerHTML = `<div class="recent-item">
+      <span class="recent-item-link">Entre na sua conta para salvar seus links.</span>
+      </div>`;
+    }
   } else {
     for (let i = 0; i < recent_links.length; i++) {
       const row = document.createElement("div");

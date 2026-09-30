@@ -1,4 +1,4 @@
-
+let loggedIn = false;
 // _____________________________________________________
 const mobileQuery = window.matchMedia("(max-width: 768px)");
 let mobile_mode;
@@ -41,7 +41,6 @@ input_url.addEventListener("keydown", function (event) {
   }
 });
 
-increment_recents_home(0);
+increment_recents_home(loggedIn);
 // increment_recents_home()
 // ______________________________________________________________________________________
-

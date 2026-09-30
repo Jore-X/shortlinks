@@ -10,7 +10,7 @@ fetch("/components/header.html")
     if (user) {
       const username = document.querySelectorAll(".user-name");
       username.forEach((element) => {
-        element.textContent = user.user_metadata.name;
+        element.textContent = cutText(0, user.user_metadata.name, 12);
       });
 
       const usermenu = document.querySelectorAll(".usermenu, .btn-li");
@@ -31,11 +31,17 @@ fetch("/components/header.html")
           window.location.href = "/";
         });
       });
+
+      loggedIn = true;
+
     } else {
       const login_links = document.querySelectorAll(".href-login");
       login_links.forEach((link) => {
         link.style.display = "flex";
       });
+
+      loggedIn = false;
+      
     }
 
     const mobile_menu_btn = document.querySelector(".mobile-menu-btn");

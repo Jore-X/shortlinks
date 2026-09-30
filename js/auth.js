@@ -42,6 +42,43 @@ const login_form = document.getElementById("login_form");
 const signUp_form = document.getElementById("signUp_form");
 const login_message = document.getElementById("login_message");
 const signUp_message = document.getElementById("signUp_message");
+const resendConfimation_box = document.getElementById(
+  "resend_confirmation_box",
+);
+const resendConfimation_btn = document.getElementById("resend_confirmation");
+
+login_form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const login_email = document.getElementById("login_email").value;
+  const login_password = document.getElementById("login_password").value;
+  console.log("email: ", login_email);
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: login_email,
+    password: login_password,
+  });
+
+  if (error) {
+    if (error.message === "Email not confirmed") {
+      login_message.textContent = "Confirme seu e-mail antes de entrar.";
+      login_message.style.color = "var(--red-muted)";
+      resendConfimation_box.style.display = "flex";
+    } else {
+      login_message.textContent = "E-mail ou senha incorretos.";
+      resendConfimation_box.style.display = "none";
+    }
+    console.error("Erro ao entrar: ", error);
+    return;
+  }
+
+  resendConfimation_box.style.display = "none";
+  login_message.textContent = "Login Realizado!";
+  login_message.style.color = "green";
+
+  console.log("Login Realizado!");
+  window.location.href = "./index.html";
+});
 
 signUp_form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -49,10 +86,6 @@ signUp_form.addEventListener("submit", async (event) => {
   const signUp_name = document.getElementById("signUp_name").value;
   const signUp_email = document.getElementById("signUp_email").value;
   const signUp_password = document.getElementById("signUp_password").value;
-  console.log("name: ", signUp_name);
-  console.log("email: ", signUp_email);
-  console.log("senha: ", signUp_password);
-
   const { data, error } = await supabaseClient.auth.signUp({
     email: signUp_email,
     password: signUp_password,
@@ -62,9 +95,6 @@ signUp_form.addEventListener("submit", async (event) => {
       },
     },
   });
-
-  console.log("Usuário retornado:", data.user);
-  console.log("Metadata:", data.user?.user_metadata);
 
   if (error) {
     signUp_message.textContent = error.message;
@@ -78,10 +108,13 @@ signUp_form.addEventListener("submit", async (event) => {
 
   if (data.user && !data.session) {
     signUp_message.textContent =
-      "Cadastro realizado! Confirme seu e-mail para continuar.";
+      "Verifique seu e-mail para confirmar o cadastro.";
     signUp_message.style.color = "green";
-    login_message.textContent = `Confirme o email na sua caixa de entrada.\n Só depois efetue o login.`;
+    login_message.textContent = `Confirme o email na sua caixa de entrada.`;
     login_message.style.whiteSpace = "pre-line";
+
+    document.getElementById("login_email").value = signUp_email;
+    document.getElementById("login_password").value = signUp_password;
 
     setTimeout(() => {
       login_acc_link.click();
@@ -90,27 +123,40 @@ signUp_form.addEventListener("submit", async (event) => {
   }
 });
 
-login_form.addEventListener("submit", async (event) => {
-  event.preventDefault();
+resendConfimation_btn.addEventListener("click", async () => {
+  const email = document.getElementById("login_email").value;
 
-  const login_email = document.getElementById("login_email").value;
-  const login_password = document.getElementById("login_password").value;
-  console.log("email: ", login_email);
-  console.log("senha: ", login_password);
-
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: login_email,
-    password: login_password,
+  const { error } = await supabaseClient.auth.resend({
+    type: "signup",
+    email: email,
   });
 
   if (error) {
-    login_message.textContent = "E-mail ou senha incorretos.";
-    console.error("Erro ao entrar: ", error);
+    console.error("Erro ao reenviar confirmação: ", error);
+    login_message.textContent = "Não foi possível reenviar o e-mail. Aguarde.";
     return;
   }
-  login_message.textContent = "Login Realizado!";
+
+  login_message.textContent = "E-mail de confirmação reenviado!";
   login_message.style.color = "green";
 
-  console.log("Login Realizado!");
-  window.location.href = "./index.html";
+  resendConfimation_btn.disabled = true;
+  resendConfimation_btn.classList.add("disabled");
+
+  let cooldown = 60;
+  resendConfimation_btn.textContent = `Reenviar (${cooldown}s)`;
+
+  const interval = setInterval(() => {
+    cooldown--;
+
+    resendConfimation_btn.textContent = `Reenviar (${cooldown}s)`;
+
+    if (cooldown <= 0) {
+      clearInterval(interval);
+
+      resendConfimation_btn.disabled = false;
+      resendConfimation_btn.classList.remove("disabled");
+      resendConfimation_btn.textContent = "Reenviar confirmação";
+    }
+  }, 1000);
 });
