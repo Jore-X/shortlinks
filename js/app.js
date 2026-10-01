@@ -41,6 +41,9 @@ input_url.addEventListener("keydown", function (event) {
   }
 });
 
-increment_recents_home(loggedIn);
+increment_recents_home();
+document.addEventListener("headerLoaded", () => {
+  increment_recents_home();
+});
 // increment_recents_home()
 // ______________________________________________________________________________________
