@@ -1,37 +1,4 @@
-const homepage = document.getElementById("homepage");
-const href_homepage = document.querySelectorAll(".href-homepage");
-const dashboard = document.getElementById("dashboard");
-const href_dashboard = document.querySelectorAll(".href-dashboard");
-const mobile_menu_btn = document.querySelector(".mobile-menu-btn");
-const mobile_menu_btn_icon = document.querySelector(".mobile-menu-btn > i");
-
-href_homepage.forEach((href) => {
-  href.addEventListener("click", () => {
-    homepage.classList.add("show");
-    dashboard.classList.remove("show");
-    
-    mobile_menu.classList.toggle("active");
-    mobile_menu_btn_icon.classList.toggle("fa-bars");
-    mobile_menu_btn_icon.classList.toggle("fa-x");
-  });
-});
-href_dashboard.forEach((href) => {
-  href.addEventListener("click", () => {
-    dashboard.classList.add("show");
-    homepage.classList.remove("show");
-
-    mobile_menu.classList.toggle("active");
-    mobile_menu_btn_icon.classList.toggle("fa-bars");
-    mobile_menu_btn_icon.classList.toggle("fa-x");
-  });
-});
-
-const mobile_menu = document.querySelector(".mobile-menu");
-mobile_menu_btn.addEventListener("click", function () {
-  mobile_menu_btn_icon.classList.toggle("fa-bars");
-  mobile_menu_btn_icon.classList.toggle("fa-x");
-  mobile_menu.classList.toggle("active");
-});
+let loggedIn = false;
 // _____________________________________________________
 const mobileQuery = window.matchMedia("(max-width: 768px)");
 let mobile_mode;
@@ -74,73 +41,6 @@ input_url.addEventListener("keydown", function (event) {
   }
 });
 
-increment_recents_home(0);
-
+increment_recents_home(loggedIn);
+// increment_recents_home()
 // ______________________________________________________________________________________
-const lines_per_column = 10;
-let links_quantidade;
-let pageState = 1;
-// _____________________________________________________
-
-const table = document
-  .getElementById("dashboard_table")
-  .getElementsByTagName("tbody")[0];
-const span_links = document.getElementById("span_links");
-const span_clicks = document.getElementById("span_clicks");
-const refresh_btn = document.querySelector(".refresh-table");
-const selectOption = document.getElementById("filter_Table");
-const input_search_links = document.getElementById("input_search_links");
-const newLink_btn = document.querySelector(".btn-create-new-link");
-
-table.appendChild(createEmptyTable(10));
-async function wait() {
-  await table_increment(table, span_links, span_clicks, selectOption.value);
-  changePagesCalc(pageState, lines_per_column);
-}
-wait();
-refresh_btn.addEventListener("click", async function () {
-  clearTable(links_quantidade);
-  await table_increment(table, span_links, span_clicks, selectOption.value);
-  refresh_btn.classList.add("animate-on");
-  setTimeout(() => {
-    refresh_btn.classList.remove("animate-on");
-  }, 2000);
-  changePagesCalc(pageState, lines_per_column);
-});
-// _____________________________________________________
-selectOption.addEventListener("change", async function () {
-  clearTable(links_quantidade);
-  await table_increment(table, span_links, span_clicks, selectOption.value);
-  changePagesCalc(pageState, lines_per_column);
-});
-
-input_search_links.addEventListener("blur", function () {
-  if (!document.getElementById("input_search_links").value) {
-    changePagesCalc(pageState, lines_per_column);
-  }
-});
-// _____________________________________________________
-newLink_btn.addEventListener("click", function () {
-  href_homepage.click();
-});
-// _____________________________________________________
-const table_rows = document.querySelectorAll(".table-rows");
-const btn_last_page = document.querySelector(".last-page");
-const page_number = document.querySelector(".page-number");
-const btn_next_page = document.querySelector(".next-page");
-
-btn_last_page.addEventListener("click", function () {
-  if (pageState > 1) {
-    pageState--;
-    changePagesCalc(pageState, lines_per_column);
-    page_number.textContent = `Página ${pageState}/${Math.ceil(links_quantidade / 10)}`;
-  }
-});
-btn_next_page.addEventListener("click", function () {
-  if (pageState < links_quantidade / 10) {
-    pageState++;
-    changePagesCalc(pageState, lines_per_column);
-    page_number.textContent = `Página ${pageState}/${Math.ceil(links_quantidade / 10)}`;
-  }
-});
-// _____________________________________________________

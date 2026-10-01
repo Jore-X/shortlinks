@@ -1,7 +1,8 @@
-@import url(./header.css);
-@import url(./homepage.css);
-@import url(./dashboard.css);
-@import url(./keyframes.css);
+@import url(./index/header.css);
+@import url(./index/homepage.css);
+@import url(./index/dashboard.css);
+@import url(./index/keyframes.css);
+@import url(./auth/auth.css);
 
 * {
   box-sizing: border-box;
@@ -23,6 +24,8 @@
   --slate-blue: #60a5fa;
   --line-gray: #e2eaf7;
   --main-text: #1f2937;
+
+  --red-muted: #d9534f;
 }
 html {
   scrollbar-width: none;
@@ -35,6 +38,7 @@ body {
 }
 a,
 li {
+  color: #000;
   text-decoration: none;
   list-style: none;
   cursor: pointer;

@@ -22,23 +22,8 @@
     <title>Shortlinks</title>
   </head>
   <body>
-    <header>
-      <div id="title_header">ShortLinks</div>
-      <ul class="navBar">
-        <li><a class="href-homepage">Inicio</a></li>
-        <li><a class="href-dashboard">Painel</a></li>
-        <!-- <li><a class="href-login">Entrar/Cadastrar</a></li> -->
-      </ul>
-      <button class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
-      <aside class="mobile-menu">
-        <ul class="mobile-navBar">
-          <li><a class="href-homepage">Inicio</a></li>
-          <li><a class="href-dashboard">Painel</a></li>
-          <!-- <li><a class="href-login">Entrar/Cadastrar</a></li> -->
-        </ul>
-      </aside>
-    </header>
-    <section id="homepage" class="sections show">
+    <header id="header"></header>
+    <section id="homepage" class="sections">
       <div class="shorten-container">
         <div class="homepage-title">
           Encurte Seus Links, <br />
@@ -69,78 +54,10 @@
         <div class="recent-div"></div>
       </div>
     </section>
-    <section id="dashboard" class="sections">
-      <div class="dashboard-title">Painel de Gerenciamento de Links</div>
-      <div class="panel-head">
-        <div class="panel-cards">
-          <div class="panel-icon">
-            <i class="fa-solid fa-link"></i>
-          </div>
-          <div>
-            <div class="PC-title">Links Ativos</div>
-            <span id="span_links"></span>
-          </div>
-        </div>
-        <div class="panel-cards">
-          <div class="panel-icon">
-            <i class="fa-solid fa-chart-line"></i>
-          </div>
-          <div>
-            <div class="PC-title">Total de Acessos</div>
-            <span id="span_clicks"></span>
-          </div>
-        </div>
-      </div>
-      <div class="div-table">
-        <div class="header-table">
-          <div class="select-div">
-            <label for="filterTable"><i class="fa-solid fa-list"></i></label>
-            <select name="filterTable" id="filter_Table">
-              <option value="clicks">Acessos</option>
-              <option value="codes">Alfabética</option>
-              <option value="recent">Mais Recentes</option>
-              <option value="old">Mais Antigos</option>
-            </select>
-          </div>
-          <button class="refresh-table">
-            <i class="fa-solid fa-rotate"></i>
-          </button>
-          <div class="input-search-table">
-            <i class="fa-brands fa-sistrix"></i>
-            <input
-              type="text"
-              id="input_search_links"
-              oninput="filterTable()"
-              placeholder="Procurar Links..."
-            />
-          </div>
-          <button class="btn-create-new-link">Criar Novo Link</button>
-        </div>
-        <table id="dashboard_table">
-          <thead>
-            <tr>
-              <th>Código</th>
-              <th>URL original</th>
-              <th>Acessos</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <div class="footer-table">
-          <button class="last-page">
-            <i class="fa-solid fa-angle-left"></i>
-          </button>
-          <div class="page-number">Páginas</div>
-          <button class="next-page">
-            <i class="fa-solid fa-angle-right"></i>
-          </button>
-        </div>
-      </div>
-    </section>
-    <script src="./js/app.js" defer></script>
     <script src="./js/supabase.js"></script>
     <script src="./js/utils.js"></script>
     <script src="./js/validation.js"></script>
+    <script src="./js/app.js" defer></script>
+    <script src="./js/header.js" defer></script>
   </body>
 </html>

@@ -29,3 +29,19 @@ async function insertRow(code, url) {
   }
   return true;
 }
+
+//__________________________________________
+//AUTENTICAÇÃO
+async function signUp(email, password) {
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+  });
+  if (error) {
+    console.error("Erro ao cadastrar: ", error);
+    return false;
+  }
+
+  console.log("Usuário cadastrado: ", data.user);
+  return true;
+}

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
+      integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Montserrat:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./styles/style.css" />
+    <title>Shortlinks</title>
+  </head>
+  <body>
+    <header id="header"></header>
+    <section id="dashboard" class="sections">
+      <div class="dashboard-title">Painel de Gerenciamento de Links</div>
+      <div class="panel-head">
+        <div class="panel-cards">
+          <div class="panel-icon">
+            <i class="fa-solid fa-link"></i>
+          </div>
+          <div>
+            <div class="PC-title">Links Ativos</div>
+            <span id="span_links"></span>
+          </div>
+        </div>
+        <div class="panel-cards">
+          <div class="panel-icon">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div>
+            <div class="PC-title">Total de Acessos</div>
+            <span id="span_clicks"></span>
+          </div>
+        </div>
+      </div>
+      <div class="div-table">
+        <div class="header-table">
+          <div class="select-div">
+            <label for="filterTable"><i class="fa-solid fa-list"></i></label>
+            <select name="filterTable" id="filter_Table">
+              <option value="clicks">Acessos</option>
+              <option value="codes">Alfabética</option>
+              <option value="recent">Mais Recentes</option>
+              <option value="old">Mais Antigos</option>
+            </select>
+          </div>
+          <button class="refresh-table">
+            <i class="fa-solid fa-rotate"></i>
+          </button>
+          <div class="input-search-table">
+            <i class="fa-brands fa-sistrix"></i>
+            <input
+              type="text"
+              id="input_search_links"
+              oninput="filterTable()"
+              placeholder="Procurar Links..."
+            />
+          </div>
+          <button class="btn-create-new-link">Criar Novo Link</button>
+        </div>
+        <table id="dashboard_table">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>URL original</th>
+              <th>Acessos</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="footer-table">
+          <button class="last-page">
+            <i class="fa-solid fa-angle-left"></i>
+          </button>
+          <div class="page-number">Páginas</div>
+          <button class="next-page">
+            <i class="fa-solid fa-angle-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+    <script src="./js/supabase.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/validation.js"></script>
+    <script src="./js/dashboard.js" defer></script>
+    <script src="./js/header.js" defer></script>
+  </body>
+</html>

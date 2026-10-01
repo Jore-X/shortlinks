@@ -85,7 +85,7 @@ async function createLink() {
     copy_btn.disabled = false;
 
     shorten_result.textContent = `https://shortlinks-2vs.pages.dev/${code}`;
-    refresh_btn.click();
+    increment_recents_home();
     input_url.value = "";
     input_url.placeholder = "Cole seu URL longo aqui...";
   } finally {
@@ -130,89 +130,116 @@ async function copy_btns_link() {
 }
 
 async function table_increment(table, panel_links, panel_clicks, selectOption) {
-  const response = await fetch("/stats");
-  const links = await response.json();
-  links_quantidade = Math.ceil(links.length / 10) * 10;
-  changePagesCalc(pageState, lines_per_column);
-  page_number.textContent = `Página ${pageState}/${Math.ceil(links_quantidade / 10)}`;
-
-  const ordered_codes = links.toSorted((a, b) => a.code.localeCompare(b.code));
-  const ordered_clicks = links.toSorted((a, b) => b.clicks - a.clicks);
-  const ordered_recent = links.toSorted((a, b) => {
-    const dataA = new Date(a.created_at.replace(" ", "T")).getTime();
-    const dataB = new Date(b.created_at.replace(" ", "T")).getTime();
-
-    return dataB - dataA;
-  });
-  increment_recents_home(ordered_recent);
-  const ordered_old = links.toSorted((a, b) => {
-    const dataA = new Date(a.created_at.replace(" ", "T")).getTime();
-    const dataB = new Date(b.created_at.replace(" ", "T")).getTime();
-
-    return dataA - dataB;
-  });
-
+  // __________________________________________________________________
   let total_links = 0;
   let total_clicks = 0;
 
-  const table_fragment = document.createDocumentFragment();
+  try {
+    const {
+      data: { session },
+    } = await supabaseClient.auth.getSession(); //pega a sessão atual para autorizar a requisição
 
-  const increment_ordered_links = (ordered_Links) => {
-    clearTable(0);
+    // _________________________________
+    console.log("Sessão do dash ", session);
+    const response = await fetch("/stats", {
+      headers: {
+        Authorization: `Bearer ${session.access_token}`,
+      },
+    });
+    // __________________________________________________________________
 
-    if (!ordered_Links || ordered_Links == "") {
-      table_fragment.appendChild(createEmptyTable(10));
-      return;
-    }
-    table.appendChild(createEmptyTable(ordered_Links.length));
+    const links = await response.json();
+    links_quantidade = Math.ceil(links.length / 10) * 10;
+    changePagesCalc(pageState, lines_per_column);
+    page_number.textContent = `Página ${pageState}/${Math.ceil(links_quantidade / 10)}`;
 
-    const tbody = document.querySelector("#dashboard_table tbody");
-    const links_keys = Object.keys(ordered_Links[0]);
-    mobile_mode = mobile_query(mobileQuery);
+    const ordered_codes = links.toSorted((a, b) =>
+      a.code.localeCompare(b.code),
+    );
+    const ordered_clicks = links.toSorted((a, b) => b.clicks - a.clicks);
+    const ordered_recent = links.toSorted((a, b) => {
+      const dataA = new Date(a.created_at.replace(" ", "T")).getTime();
+      const dataB = new Date(b.created_at.replace(" ", "T")).getTime();
 
-    for (let i = 0; i < ordered_Links.length; i++) {
+      return dataB - dataA;
+    });
+    const ordered_old = links.toSorted((a, b) => {
+      const dataA = new Date(a.created_at.replace(" ", "T")).getTime();
+      const dataB = new Date(b.created_at.replace(" ", "T")).getTime();
+
+      return dataA - dataB;
+    });
+
+    const table_fragment = document.createDocumentFragment();
+
+    const increment_ordered_links = (ordered_Links) => {
+      clearTable(0);
+
+      if (!ordered_Links || ordered_Links == "") {
+        table_fragment.appendChild(createEmptyTable(10));
+        return;
+      }
+      table.appendChild(createEmptyTable(ordered_Links.length));
+
+      const tbody = document.querySelector("#dashboard_table tbody");
+      const links_keys = Object.keys(ordered_Links[0]);
+      mobile_mode = mobile_query(mobileQuery);
+
       for (let i = 0; i < ordered_Links.length; i++) {
-        for (let j = 0; j < 3; j++) {
-          const key = links_keys[j];
+        for (let i = 0; i < ordered_Links.length; i++) {
+          for (let j = 0; j < 3; j++) {
+            const key = links_keys[j];
 
-          if (mobile_mode) {
-            tbody.rows[i].cells[j].textContent =
-              `${cutText(8, ordered_Links[i][key], 20)}`;
-          } else if (!mobile_mode) {
-            tbody.rows[i].cells[j].textContent =
-              `${cutText(8, ordered_Links[i][key], 42)}`;
-          }
+            if (mobile_mode) {
+              tbody.rows[i].cells[j].textContent =
+                `${cutText(8, ordered_Links[i][key], 20)}`;
+            } else if (!mobile_mode) {
+              tbody.rows[i].cells[j].textContent =
+                `${cutText(8, ordered_Links[i][key], 42)}`;
+            }
 
-          if (j === 2) {
-            tbody.rows[i].cells[j + 1].innerHTML =
-              `<button class="btn-copy-table">
+            if (j === 2) {
+              tbody.rows[i].cells[j + 1].innerHTML =
+                `<button class="btn-copy-table">
                           <span>Copiar Link</span>
                           <span>Copiado!</span>
                       </button>`;
+            }
           }
         }
+
+        total_links++;
+        total_clicks = total_clicks + ordered_Links[i].clicks;
       }
 
-      total_links++;
-      total_clicks = total_clicks + ordered_Links[i].clicks;
-    }
-    copy_btns_link();
-  };
+      copy_btns_link();
+    };
 
-  if (selectOption == "clicks") {
-    increment_ordered_links(ordered_clicks);
-  } else if (selectOption == "codes") {
-    increment_ordered_links(ordered_codes);
-  } else if (selectOption == "recent") {
-    increment_ordered_links(ordered_recent);
-  } else if (selectOption == "old") {
-    increment_ordered_links(ordered_old);
+    if (selectOption == "clicks") {
+      increment_ordered_links(ordered_clicks);
+    } else if (selectOption == "codes") {
+      increment_ordered_links(ordered_codes);
+    } else if (selectOption == "recent") {
+      increment_ordered_links(ordered_recent);
+    } else if (selectOption == "old") {
+      increment_ordered_links(ordered_old);
+    }
+
+    table.appendChild(table_fragment);
+  } catch (error) {
+    console.error(
+      "Não foi possível carregar os links porque não havia uma sessão ativa ou a requisição falhou.",
+      `ERROR: ` + error.message,
+    );
   }
 
-  table.appendChild(table_fragment);
-
-  panel_links.textContent = `${total_links}`;
-  panel_clicks.textContent = `${total_clicks}`;
+  if (!total_links || total_links == 0) {
+    panel_links.textContent = 0;
+    panel_clicks.textContent = 0;
+  } else {
+    panel_links.textContent = `${total_links}`;
+    panel_clicks.textContent = `${total_clicks}`;
+  }
 }
 
 function filterTable() {
@@ -298,15 +325,50 @@ function changePagesCalc(page, lines_per_column) {
   }
 }
 
-function increment_recents_home(recent_links) {
+async function increment_recents_home() {
+  let recent_links;
+  try {
+    const {
+      data: { session },
+    } = await supabaseClient.auth.getSession(); //pega a sessão atual para autorizar a requisição
+
+    // _____________________________
+
+    const response = await fetch("/stats", {
+      headers: {
+        Authorization: `Bearer ${session.access_token}`,
+      },
+    });
+    // __________________________________________________________________
+
+    const links = await response.json();
+    recent_links = links.toSorted((a, b) => {
+      const dataA = new Date(a.created_at.replace(" ", "T")).getTime();
+      const dataB = new Date(b.created_at.replace(" ", "T")).getTime();
+
+      return dataB - dataA;
+    });
+  } catch (error) {
+    console.error(
+      "Não foi possível carregar os links porque não havia uma sessão ativa ou a requisição falhou.",
+      `ERROR: ` + error.message,
+    );
+  }
+
   const recent_div = document.querySelector(".recent-div");
   recent_div.innerHTML = ``;
   const recent_box = document.createDocumentFragment();
 
-  if (recent_links.length == 0 || recent_links == "" || !recent_links) {
-    recent_div.innerHTML = `<div class="recent-item">
-            <span class="recent-item-link">Nenhum Link Encontrado.</span>
-          </div>`;
+  if (!recent_links || recent_links == "" || recent_links.length == 0) {
+    if (loggedIn) {
+      recent_div.innerHTML = `<div class="recent-item">
+      <span class="recent-item-link">Nenhum Link Encontrado.</span>
+      </div>`;
+    } else {
+      recent_div.innerHTML = `<div class="recent-item">
+      <span class="recent-item-link">Entre na sua conta para salvar seus links.</span>
+      </div>`;
+    }
   } else {
     for (let i = 0; i < recent_links.length; i++) {
       const row = document.createElement("div");
